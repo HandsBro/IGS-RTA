@@ -374,28 +374,6 @@ def calculate_answer_error_rate(error_rates, votes, final_answer, prior=0.5):
     
     return p_error
 
-def target_probability_increase(selected_node):
-    pTi=pT[selected_node]
-    err=e[selected_node]
-    # balance_rate=max(pTi/(1-pTi),(1-pTi)/pTi)
-    # return (1-2*err)*(1/(balance_rate+err/(1-err))-1/(balance_rate+(1-err)/err))
-    # return pTi*(1-2*err)*(1/(pTi/(1-pTi)+err/(1-err))-1/(pTi/(1-pTi)+(1-err)/err)) + (1-pTi)*(1-2*err)*(1/((1-pTi)/pTi+err/(1-err))-1/((1-pTi)/pTi+(1-err)/err))
-    return min((1-2*err)*(1/(pTi/(1-pTi)+err/(1-err))-1/(pTi/(1-pTi)+(1-err)/err)), (1-2*err)*(1/((1-pTi)/pTi+err/(1-err))-1/((1-pTi)/pTi+(1-err)/err)))
-
-def select_query_node():
-    selected_node=1
-    expected_increase=target_probability_increase(selected_node)
-    for i in range(2,n):
-        tmp=target_probability_increase(i)
-        if (tmp>expected_increase):
-            expected_increase=tmp
-            selected_node=i
-    # print(f"Node:{selected_node}, X:{pT[selected_node]}, Y:{e[selected_node]}, E:{expected_increase}")
-    pTi=pT[selected_node]
-    err=e[selected_node]
-    # print((1-2*err)*(1/(pTi/(1-pTi)+err/(1-err))-1/(pTi/(1-pTi)+(1-err)/err)), (1-2*err)*(1/((1-pTi)/pTi+err/(1-err))-1/((1-pTi)/pTi+(1-err)/err)))
-    return selected_node
-
 def majority_vote_probability(acc):
 
     k = len(acc)  
@@ -430,7 +408,6 @@ def select_node_entropy():
         # print(correct)
         e_entropy.append(1-correct)
 
-
     for i in range(n):
         Y = e_entropy[i]
         X = pT[i]
@@ -441,16 +418,6 @@ def select_node_entropy():
             increase=Z
             answer=i
     return answer
-
-def select_query_node_middle():
-    selected = 0
-    gap = 1
-    for i in range(n):
-        if (abs(pT[i]-0.5) < gap):
-            gap = abs(pT[i]-0.5)
-            selected = i
-    # print(f"gap: {gap}; pT closest to 0.5: {pT[selected]}; max individual: {max(p)}")
-    return selected
 
 def dfs_subtree_weight(u,pT):
     pT[u]=p[u]
@@ -483,16 +450,7 @@ def normalize(p):
     sum_p=sum(p)
     for i in range(n):
         p[i]=p[i]/sum_p
-
-def update_probability(selected_node,answer):
-    err=e[selected_node]
-    for i in range(n):
-        if (answer == (i in reachable[selected_node])):
-            p[i]=p[i]*(1-err)
-        else:
-            p[i]=p[i]*err
-    normalize(p)
-      
+    
 def update_probability_new(selected_node,answer,prob):
     err=prob
     for i in range(n):

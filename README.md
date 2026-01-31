@@ -10,10 +10,6 @@ This repository implements **IGS-RTA**, an algorithm for the interactive graph s
 - NumPy
 - SciPy
 
-## Datasets
-
-The benchmark dataset is located in the `/Data/Amazon` directory. This is a standard dataset widely used in IGS research.
-
 ## Usage
 
 To run IGS-RTA, use the following command for help:

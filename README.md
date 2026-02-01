@@ -1,14 +1,16 @@
 # IGS-RTA
 
-[TOC]
-
-This repository implements **IGS-RTA**, an algorithm for the interactive graph search problem under a generalized noisy setting. IGS-RTA employs an uncertainty-based strategy for query node selection and is able to learn latent oracle expertise and query difficulty on the fly.
+This repository implements **IGS-RTA**, an algorithm for the interactive graph search problem under a practical noisy setting. IGS-RTA employs an uncertainty-based strategy for query node selection and is able to learn latent oracle expertise and query difficulty on the fly.
 
 ## Prerequisites
 
 - Python 3.9+
 - NumPy
 - SciPy
+
+## Dataset
+
+The **Amazon** dataset is included in this repository. 
 
 ## Usage
 
